@@ -3,18 +3,11 @@ import random
 from math import gcd
 from math import sqrt
 
-def is_prime(num):
-    if num == 2:
-        return True
-    if num < 2 or num % 2 == 0:
-        return False
-    for n in range(3, int(sqrt(num))+2, 2):
-        if num % n == 0:
-            return False
-    return True
+from sympy import isprime
+
 
 def generate_key_pair(p, q):
-    if not (is_prime(p) and is_prime(q)):
+    if not (isprime(p) and isprime(q)):
         raise ValueError('Числа должны быть простыми!')
     elif p == q:
         raise ValueError('Числа не должны быть одинаковыми!')
@@ -76,9 +69,9 @@ if __name__ == "__main__":
     p = int(random.randrange(1, 10000))
     q = int(random.randrange(1, 10000))
 
-    while not is_prime(p):
+    while not isprime(p):
         p = int(random.randrange(1, 10000))
-    while not is_prime(q):
+    while not isprime(q):
         q = int(random.randrange(1, 10000))
 
     public, private = generate_key_pair(p, q)
@@ -89,5 +82,5 @@ if __name__ == "__main__":
     message = input("Введите сообщение: ")
     encrypted_msg = encrypt(public, message)
 
-    print("Зашифрованное сообщение: ", ''.join(map(lambda x: str(x), encrypted_msg)))
+    print("Зашифрованное сообщение: ", ''.join(map(lambda x: str(x) + " ", encrypted_msg)))
     print("Рассшифрванное сообщение: ", decrypt(private, encrypted_msg))
